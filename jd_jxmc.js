@@ -36,6 +36,7 @@ let cookiesArr = [];
 let UA, token, UAInfo = {}
 $.appId = 10028;
 $.helpCkList = [];
+const vgtNum = 50 // 蔬菜门槛
 let cardinfo = {
   "16": "小黄鸡",
   "17": "辣子鸡",
@@ -356,7 +357,7 @@ async function pasture() {
     if (Number($.homeInfo.coins) > 5000) {
       let canBuyTimes = Math.floor(Number($.homeInfo.coins) / 5000);
       console.log(`\n共有金币${$.homeInfo.coins},可以购买${canBuyTimes}次白菜`);
-      if (Number(materialNumber) < 400) {
+      if (Number(materialNumber) < vgtNum) {
         for (let j = 0; j < canBuyTimes && j < 4; j++) {
           console.log(`第${j + 1}次购买白菜`);
           await takeGetRequest('buy');
@@ -365,7 +366,7 @@ async function pasture() {
         await takeGetRequest('GetHomePageInfo');
         await $.wait(2000);
       } else {
-        console.log(`现有白菜${materialNumber},大于400颗,不进行购买`);
+        console.log(`现有白菜${materialNumber},大于${vgtNum}颗,不进行购买`);
       }
     } else {
       console.log(`\n共有金币${$.homeInfo.coins}`);

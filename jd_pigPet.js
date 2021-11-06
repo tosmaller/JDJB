@@ -20,6 +20,7 @@ cron "12 0-23/6 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJ
 */
 const $ = new Env('金融养猪');
 const url = require('url');
+const eatFullFood = false // 喂养全部食物
 let cookiesArr = [], cookie = '', allMessage = '';
 const JD_API_HOST = 'https://ms.jr.jd.com/gw/generic/uc/h5/m';
 const MISSION_BASE_API = `https://ms.jr.jd.com/gw/generic/mission/h5/m`;
@@ -184,8 +185,8 @@ function pigPetUserBag() {
                   }
                   for (let item of data.resultData.resultData.goods) {
                     if (item.count >= 20) {
-                      let i = 50
-                      console.log(`\n每次运行最多喂食50次`)
+                      let i = 10
+                      console.log(`\n每次运行最多喂食10次`)
                       do {
                         console.log(`\n15秒后开始喂食${item.goodsName}，当前数量为${item.count}g`)
                         await $.wait(15000);
