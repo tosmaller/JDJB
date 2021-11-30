@@ -1,30 +1,31 @@
 /*
-11.6~11.12 联合开卡 [jd_opencardLH13.js]
-开卡一次性脚本
+11.27~12.2 联合开卡 [jd_opencardLH20.js]
+开卡脚本,一次性脚本
 
 1.邀请一人20豆(有可能没有豆
-2.开18张 成功开1张 可能获得5京豆
+2.开12张 成功开1张 可能获得5京豆
   全部开完获得1次抽奖
 3.关注10京豆 获得1次抽奖
 4.加购5京豆 获得1次抽奖
-5.抽奖
+5.抽奖 
+
 第一个账号助力作者 其他依次助力CK1
 第一个CK失效会退出脚本
-
 ————————————————
-入口：[ 11.6~11.12 联合开卡 (搜索：荣耀京东自营旗舰店。左侧悬浮窗)]
+入口：[ 11.27~12.2 联合开卡 (https://3.cn/103-yMSRX)]
 
 请求太频繁会被黑ip
 过10分钟再执行
 
+cron:7 4,11 27-30,1,2 11,12 *
 ============Quantumultx===============
 [task_local]
-#11.6~11.12 联合开卡
-17 8,12 6-12 11 * jd_opencard15.js, tag=11.6~11.12 联合开卡, enabled=true
+#11.27~12.2 联合开卡
+7 4,11 27-30,1,2 11,12 * jd_opencardLH20.js, tag=11.27~12.2 联合开卡, enabled=true
 
 */
 
-const $ = new Env('11.6~11.12 联合开卡');
+const $ = new Env('11.27~12.2 联合开卡');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 //IOS等用户直接用NobyDa的jd cookie
@@ -44,22 +45,13 @@ message = ""
 $.hotFlag = false
 $.outFlag = false
 $.activityEnd = false
-
 !(async () => {
-  
-  if (!cookiesArr[0]) {
-    $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
-      "open-url": "https://bean.m.jd.com/"
-    });
-    return;
-  }
-  console.log('入口->搜索->荣耀京东自营旗舰店->进店->左侧悬浮窗');
-  // return
   $.appkey = '51B59BB805903DA4CE513D29EC448375'
   $.userId = '10299171'
-  $.actId = '398d302ded094bf89b8afa9c9ef13_1106'
+  $.actId = '0ce138cf44eb4b62999fdf1042_1127'
   $.MixNicks = ''
   $.inviteNick = 'k1Nobb+P0er+C2sysxnx/P2KELO9izRVpwCyqu0eqVZ5aW7RHzlMobrzJ/e9r/uf'
+  console.log(`活动地址:https://jinggengjcq-isv.isvjcloud.com/fronth5/#/pages/unitedCardNew20211125/unitedCardNew20211125?actId=0ce138cf44eb4b62999fdf1042_1127`)
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
@@ -148,26 +140,24 @@ async function run() {
       console.log('已经关注')
     }
     $.missionType = 'uniteAddCart'
-    
     await takePostRequest('mission');
     await $.wait(parseInt(Math.random() * 2000 + 3000, 10))
     
     await takePostRequest('activity_load');
-    $.runFalag = true
-    let count = parseInt($.usedChance, 10)
-    console.log(`抽奖次数为:${count}`)
-    for(m=1;count--;m++){
+      $.runFalag = true
+      let count = parseInt($.usedChance, 10)
+      console.log(`抽奖次数为:${count}`)
+      for(m=1;count--;m++){
         console.log(`第${m}次抽奖`)
         await takePostRequest('抽奖');
         if($.runFalag == false) break
         if(Number(count) <= 0) break
         if(m >= 10){
-            console.log("抽奖太多次，多余的次数请再执行脚本")
-            break
+          console.log("抽奖太多次，多余的次数请再执行脚本")
+          break
         }
         await $.wait(parseInt(Math.random() * 2000 + 2000, 10))
-    }
-    
+      }
     await takePostRequest('myAward');
     await takePostRequest('missionInviteList');
     console.log($.MixNick)

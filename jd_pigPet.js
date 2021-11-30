@@ -66,7 +66,7 @@ if ($.isNode()) {
     }
   }
   console.log(`\n======开始大转盘助力======\n`);
-  $.shareCodes = [...$.shareCodes, ...helpId]
+  $.shareCodes = [...$.shareCodes, ...($.helpId || [])]
   for (let j = 0; j < cookiesArr.length; j++) {
     cookie = cookiesArr[j];
     if ($.shareCodes && $.shareCodes.length) {
@@ -689,8 +689,6 @@ function pigPetDoMission(mid) {
                 if (data.resultData.resultData) {
                   if (data.resultData.resultData.award) {
                     console.log(`奖励${data.resultData.resultData.award.name},数量:${data.resultData.resultData.award.count}`)
-                  } if (data.resultData.resultData.status === 3) {
-                    console.log('此任务需手动完成')
                   }
                 }
               } else {
