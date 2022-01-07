@@ -343,7 +343,7 @@ async function pasture() {
       }
       materialNumber = Number(materialinfoList[j].value);//白菜数量
     }
-    if (Number($.homeInfo.coins) > 50000) {
+    if (Number($.homeInfo.coins) > 100000) {
       let canBuyTimes = Math.floor(Number($.homeInfo.coins) / 5000);
       console.log(`\n共有金币${$.homeInfo.coins},可以购买${canBuyTimes}次白菜`);
       if (Number(materialNumber) < vgtNum) {
