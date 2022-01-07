@@ -25,26 +25,26 @@ let vender=''
 let num=0
 let shopname=''
 const token = [
-  "A26BF99AE6BA7736C83D0ABAFF3B19AD",
-  "CBED10B4F2080B42AC58316C0653E53C",
-  "B4DECC2E7C682CF5D56C84B8EFAC4E4F",
-  "97C6BD84D60EE4716A740993E446C2FF",
-  "083C8C9F979331E1F9AA5A69B43ADFD1",
-  "FB65AA46F502CCFEB28CAE706BF698DF",
-  "3D19AA91E3FBC5912CFA21F2BC2627CF",
-  "AEE47FB1CBC3A03E2B8442B2F1289803",
-  "AE9C3296A29322D60E500123C4391233",
-  "BA28099FE3FB1440A7A14B1D8F9F63BE",
-  "AECD96F9A4B90B37F8D4C39B7B35974B",
-  "60811408FD8183DE2176E5630BE1B8EA",
-  "9542085FFDB51476EE59D5A6502D67F0",
-  "6426552A3974195FE2B28DF29128345F",
-  "9A42B3E0E6C8D997543E69D7BA9B4395",
-  "F6B96114B374349D9636E090B6746E6A",
-  "99A7679D647198976CE683C110088927",
-  "8BF57ED55486BD4098A61C11F0B3FD14",
-  "817BBE94FCFD8CD970E9D68BEAA55D71",
-  "8111EE06946DAB79472DFDF2A13C2DB9"
+  "2B5C0F65AAB570D1736C8F24D1260D78",
+  "F932E5DE653968BB1D92A2DFFD5318C7",
+  "90DBB523AD134F61A8335D24728C8EB7",
+  "39415200CB5E286A4DB604A54C901A13",
+  "C5FAE6D9F9B94F606370A7A98A5F2E70",
+  "F5E2E3856C6FF1869CCE53153D237112",
+  "7A64973CD1A0873108CB2E4740A86D7D",
+  "F337196AC5F550B3B7896F3F80089793",
+  "45DBA1666FC56F3040F2F68396F1CDCE",
+  "237DB8682E64A21BF18833A10E246162",
+  "098FD50396245FA00EA629B20A533E3E",
+  "DFB0150982F11A1EFB81A5B1399B7BD1",
+  "F12032C7804D496FC82CCCBEDE205CA0",
+  "B52C0C73C735820922346460A4CE6CC4",
+  "9A2F9AFF0153C3D1DDD5C9516C468F52",
+  "2AEC5E975C792B413E569A4416C8F79D",
+  "88C72E9A4F342606C7C98C601CCB3196",
+  "7352D6FB71BEDDF0ACAC6E4057640894",
+  "329C618CD7B700B350C8CC8054B8622E",
+  "7BFD202E8D2D071F5E79B6E9D3892020"
 ]
 
 if ($.isNode()) {
@@ -86,6 +86,7 @@ if ($.isNode()) {
       }
       await dpqd()
       await showMsg()
+      await $.wait(1500)
     }
   }
   if ($.isNode() && allMessage) {
@@ -104,6 +105,7 @@ async function dpqd(){
   for (var j = 0; j < token.length; j++) {
     num=j+1
     if (token[j]=='') {continue}
+    getUA()
     await getvenderId(token[j])
     if (vender=='') {continue}
     await getvenderName(vender)
@@ -124,7 +126,8 @@ function getvenderId(token) {
         "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
         "cookie": cookie,
         "referer": 'https://h5.m.jd.com/',
-        "User-Agent": `Mozilla/5.0 (Linux; U; Android 10; zh-cn; MI 8 Build/QKQ1.190828.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.147 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.5.40`
+        "User-Agent": $.UA
+        // "User-Agent": `Mozilla/5.0 (Linux; U; Android 10; zh-cn; MI 8 Build/QKQ1.190828.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.147 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.5.40`
       }
     }
     $.get(options, (err, resp, data) => {
@@ -162,7 +165,8 @@ function getvenderName(venderId) {
         "accept-encoding": "gzip, deflate, br",
         "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
         "cookie": cookie,
-        "User-Agent": `Mozilla/5.0 (Linux; U; Android 10; zh-cn; MI 8 Build/QKQ1.190828.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.147 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.5.40`
+        "User-Agent": $.UA
+        // "User-Agent": `Mozilla/5.0 (Linux; U; Android 10; zh-cn; MI 8 Build/QKQ1.190828.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.147 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.5.40`
       }
     }
     $.get(options, (err, resp, data) => {
@@ -198,7 +202,8 @@ function getActivityInfo(token,venderId) {
         "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
         "cookie": cookie,
         "referer": `https://h5.m.jd.com/babelDiy/Zeus/2PAAf74aG3D61qvfKUM5dxUssJQ9/index.html?token=${token}&sceneval=2&jxsid=16105853541009626903&cu=true&utm_source=kong&utm_medium=jingfen&utm_campaign=t_1001280291_&utm_term=fa3f8f38c56f44e2b4bfc2f37bce9713`,
-        "User-Agent": `Mozilla/5.0 (Linux; U; Android 10; zh-cn; MI 8 Build/QKQ1.190828.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.147 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.5.40`
+        "User-Agent": $.UA
+        // "User-Agent": `Mozilla/5.0 (Linux; U; Android 10; zh-cn; MI 8 Build/QKQ1.190828.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.147 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.5.40`
       }
     }
     $.get(options, (err, resp, data) => {
@@ -241,7 +246,8 @@ function signCollectGift(token,venderId,activitytemp) {
         "accept-language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
         "cookie": cookie,
         "referer": `https://h5.m.jd.com/babelDiy/Zeus/2PAAf74aG3D61qvfKUM5dxUssJQ9/index.html?token=${token}&sceneval=2&jxsid=16105853541009626903&cu=true&utm_source=kong&utm_medium=jingfen&utm_campaign=t_1001280291_&utm_term=fa3f8f38c56f44e2b4bfc2f37bce9713`,
-        "User-Agent": `Mozilla/5.0 (Linux; U; Android 10; zh-cn; MI 8 Build/QKQ1.190828.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.147 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.5.40`
+        "User-Agent": $.UA
+        // "User-Agent": `Mozilla/5.0 (Linux; U; Android 10; zh-cn; MI 8 Build/QKQ1.190828.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.147 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.5.40`
       }
     }
     $.get(options, (err, resp, data) => {
@@ -273,7 +279,8 @@ function taskUrl(token,venderId) {
         "accept-language": "zh-CN,zh;q=0.9",
         "cookie": cookie,
         "referer": `https://h5.m.jd.com/`,
-        "user-agent": `Mozilla/5.0 (Linux; U; Android 10; zh-cn; MI 8 Build/QKQ1.190828.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.147 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.5.40`
+        "User-Agent": $.UA
+        // "user-agent": `Mozilla/5.0 (Linux; U; Android 10; zh-cn; MI 8 Build/QKQ1.190828.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.147 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.5.40`
       }
     }
     $.get(options, (err, resp, data) => {
@@ -358,6 +365,18 @@ function jsonParse(str) {
       return [];
     }
   }
+}
+
+function randomString(e) {
+  e = e || 32;
+  let t = "abcdef0123456789", a = t.length, n = "";
+  for (i = 0; i < e; i++)
+    n += t.charAt(Math.floor(Math.random() * a));
+  return n
+}
+
+function getUA() {
+  $.UA = `jdapp;iPhone;10.2.2;13.1.2;${randomString(40)};M/5.0;network/wifi;ADID/;model/iPhone8,1;addressid/2308460611;appBuild/167863;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;`
 }
 
 // prettier-ignore

@@ -16,7 +16,6 @@ export JD_TRY_MAXLENGTH="50" #商品数组的最大长度
 export JD_TRY_APPLYINTERVAL="5000" #商品试用之间和获取商品之间的间隔
 export JD_TRY_APPLYNUMFILTER="100000" #过滤大于设定值的已申请人数
 export JD_TRY_MINSUPPLYNUM="1" #最小提供数量
-export JD_TRY_TABID="1@2@3@4@5@6@7@8@9@10"
 export JD_TRY_SENDNUM="10" #每隔多少账号发送一次通知，不需要可以不用设置
 cron "4 1-22/8 * * *" jd_try.js, tag:京东试用
 
@@ -49,7 +48,7 @@ $.innerKeyWords =
         "女用", "神油", "足力健", "老年", "老人",
         "宠物", "饲料", "丝袜", "黑丝", "磨脚",
         "脚皮", "除臭", "性感", "内裤", "跳蛋",
-        "安全套", "龟头", "阴道", "阴部"
+        "安全套", "龟头", "阴道", "阴部", "手机卡"
     ]
 //下面很重要，遇到问题请把下面注释看一遍再来问
 let args_xh = {
@@ -155,7 +154,7 @@ let args_xh = {
 }
 //上面很重要，遇到问题请把上面注释看一遍再来问
 !(async() => {
-     await $.wait(500)
+    await $.wait(500)
     // 如果你要运行京东试用这个脚本，麻烦你把环境变量 JD_TRY 设置为 true
     if(process.env.JD_TRY && process.env.JD_TRY === 'true'){
         await requireConfig()
@@ -384,6 +383,11 @@ function try_feedsList(tabId, page){
                                             $.isPush = false;
                                             break;
                                         }
+                                        else if(itemTag.tagType === 5){
+                                            args_xh.printLog ? console.log('商品被跳过，该商品是付费试用！') : ''
+                                            $.isPush = false;
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -420,7 +424,7 @@ function try_feedsList(tabId, page){
                         }
                         console.log(`当前试用组长度为：${trialActivityIdList.length}`)
                         args_xh.printLog ? console.log(`${trialActivityIdList}`) : ''
-                        if(page === $.totalPages && $.nowTabIdIndex < args_xh.tabId.length){
+                        if(page >= $.totalPages && $.nowTabIdIndex < args_xh.tabId.length){
                             //这个是因为每一个tab都会有对应的页数，获取完如果还不够的话，就获取下一个tab
                             $.nowTabIdIndex++;
                             $.nowPage = 1;

@@ -1,5 +1,12 @@
 /*
-脚本：取关京东店铺和商品(批量版) from @X1a0He大佬
+ * @Author: X1a0He
+ * @Date: 2021-09-04 11:50:47
+ * @LastEditTime: 2021-11-10 22:30:00
+ * @LastEditors: X1a0He
+ * @Description: 批量取关京东店铺和商品
+ * @Fixed: 不再支持Qx，仅支持Node.js
+脚本：取关京东店铺和商品
+更新时间：2021-05-08
 因种豆得豆和宠汪汪以及NobyDa大佬的京东签到脚本会关注店铺和商品，故此脚本用来取消已关注的店铺和商品
 默认：每运行一次脚本全部已关注的店铺与商品
 建议此脚本运行时间在 种豆得豆和宠汪汪脚本运行之后 再执行
@@ -8,16 +15,16 @@
 ==============Quantumult X===========
 [task_local]
 #取关京东店铺商品
-55 23 * * * jd_unsubscribe.js, tag=取关京东店铺商品, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+55 21 * * * jd_unsubscribe.js, tag=取关京东店铺商品, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 ===========Loon============
 [Script]
-cron "55 23 * * *" script-path=jd_unsubscribe.js,tag=取关京东店铺商品
+cron "55 21 * * *" script-path=jd_unsubscribe.js,tag=取关京东店铺商品
 ============Surge=============
-取关京东店铺商品 = type=cron,cronexp="55 23 * * *",wake-system=1,timeout=3600,script-path=jd_unsubscribe.js
+取关京东店铺商品 = type=cron,cronexp="55 21 * * *",wake-system=1,timeout=3600,script-path=jd_unsubscribe.js
 ===========小火箭========
-取关京东店铺商品 = type=cron,script-path=jd_unsubscribe.js, cronexpr="55 23 * * *", timeout=3600, enable=true
+取关京东店铺商品 = type=cron,script-path=jd_unsubscribe.js, cronexpr="55 2 * * *", timeout=3600, enable=true
  */
-const $ = new Env('取关京东店铺和商品');
+const $ = new Env('批量取关店铺和商品');
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -66,7 +73,7 @@ let args_xh = {
      * 间隔，防止提示操作频繁，单位毫秒(1秒 = 1000毫秒)
      * 可用环境变量控制：JD_UNSUB_INTERVAL，默认为3000毫秒
      * */
-    unSubscribeInterval: process.env.JD_UNSUB_INTERVAL * 1 || 1000,
+    unSubscribeInterval: process.env.JD_UNSUB_INTERVAL * 1 || 3000,
     /*
      * 是否打印日志
      * 可用环境变量控制：JD_UNSUB_PLOG，默认为true
@@ -213,11 +220,10 @@ function favCommQueryFilter(){
     return new Promise((resolve) => {
         console.log('正在获取已关注的商品...')
         const option = {
-            url: `https://wq.jd.com/fav/comm/FavCommQueryFilter?cp=1&pageSize=${args_xh.goodPageSize}&sceneval=2`,
+            url: `https://wq.jd.com/fav/comm/FavCommQueryFilter?cp=1&pageSize=${args_xh.goodPageSize}&category=0&promote=0&cutPrice=0&coupon=0&stock=0&sceneval=2`,
             headers: {
-                "Connection": "keep-alive",
                 "Cookie": cookie,
-                "User-Agent": "jdapp;JD4iPhone/167724 (iPhone; iOS 15.0; Scale/3.00)",
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
                 "Referer": "https://wqs.jd.com/"
             },
         }
@@ -257,9 +263,8 @@ function favCommBatchDel(){
         const option = {
             url: `https://wq.jd.com/fav/comm/FavCommBatchDel?commId=${$.commIdList}&sceneval=2&g_login_type=1`,
             headers: {
-                "Connection": "keep-alive",
                 "Cookie": cookie,
-                "User-Agent": "jdapp;JD4iPhone/167724 (iPhone; iOS 15.0; Scale/3.00)",
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
                 "Referer": "https://wqs.jd.com/"
             },
         }
@@ -287,9 +292,8 @@ function queryShopFavList(){
         const option = {
             url: `https://wq.jd.com/fav/shop/QueryShopFavList?cp=1&pageSize=${args_xh.shopPageSize}&sceneval=2&g_login_type=1&callback=jsonpCBKA`,
             headers: {
-                "Connection": "keep-alive",
                 "Cookie": cookie,
-                "User-Agent": "jdapp;JD4iPhone/167724 (iPhone; iOS 15.0; Scale/3.00)",
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
                 "Referer": "https://wqs.jd.com/"
             },
         }
@@ -331,9 +335,8 @@ function batchunfollow(){
         const option = {
             url: `https://wq.jd.com/fav/shop/batchunfollow?shopId=${$.shopIdList}&sceneval=2&g_login_type=1`,
             headers: {
-                "Connection": "keep-alive",
                 "Cookie": cookie,
-                "User-Agent": "jdapp;JD4iPhone/167724 (iPhone; iOS 15.0; Scale/3.00)",
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
                 "Referer": "https://wqs.jd.com/"
             },
         }
