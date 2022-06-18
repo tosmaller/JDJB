@@ -374,9 +374,9 @@ async function pasture() {
       }
       if (Number(materialinfoList[j].value) > 10) {
         $.canFeedTimes = Math.floor(Number(materialinfoList[j].value) / 10);
-        console.log(`\n共有白菜${materialinfoList[j].value}颗，每次喂10颗，可以喂${$.canFeedTimes}次`);
+        console.log(`\n共有白菜${materialinfoList[j].value}颗，每次喂10颗，可以喂${$.canFeedTimes}次, 只喂12次`);
         $.runFeed = true;
-        for (let k = 0; k < $.canFeedTimes && $.runFeed && k < 40; k++) {
+        for (let k = 0; k < $.canFeedTimes && $.runFeed && k < 13; k++) {
           $.pause = false;
           console.log(`开始第${k + 1}次喂白菜`);
           await takeGetRequest('feed');
